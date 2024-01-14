@@ -1,17 +1,16 @@
-package com.patricksantino.simplifyguitarchords.dto.request;
+package com.patricksantino.simplifyguitarchords.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-public class ChatPromptMessageDto {
+public class ChatMessage {
     @JsonProperty("role")
     private String role;
 
     @JsonProperty("content")
     private String content;
 }
+

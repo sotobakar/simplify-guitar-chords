@@ -13,7 +13,7 @@ CREATE TABLE chords (
                         capo INTEGER NOT NULL,
                         open_chords INTEGER NOT NULL,
                         barre_chords INTEGER NOT NULL,
-                        chord_changes INTEGER NOT NULL,
+                        chord_transitions INTEGER NOT NULL,
                         finger_placement INTEGER NOT NULL,
                         song_id INTEGER NOT NULL REFERENCES songs(id),
                         difficulty INTEGER NOT NULL,
