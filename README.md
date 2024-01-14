@@ -11,6 +11,8 @@
 
 ## Features
 
+[Postman Collection](https://drive.google.com/file/d/1Pjak-EQoAXAZyuedQIb3302Bf6IHlNXz/view?usp=sharing)
+
 ### 1. Simplify Guitar Chord Songs
 - **Endpoint**: POST /songs/simplify
 - **Criteria for Simplification**:
@@ -21,6 +23,9 @@
 
 ### 2. Get All Songs with Chords
 - **Endpoint**: GET /songs
+
+### 3. Get Song by ID
+- **Endpoint**: GET /songs/{id}
 
 ## Requirements
 
