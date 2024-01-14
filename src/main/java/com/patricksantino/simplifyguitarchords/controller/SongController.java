@@ -2,10 +2,14 @@ package com.patricksantino.simplifyguitarchords.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.patricksantino.simplifyguitarchords.dto.request.SimplifySongChordRequestDto;
+import com.patricksantino.simplifyguitarchords.dto.response.CustomPageResponseDto;
 import com.patricksantino.simplifyguitarchords.dto.response.CustomResponseDto;
 import com.patricksantino.simplifyguitarchords.model.Song;
 import com.patricksantino.simplifyguitarchords.service.SongService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +35,22 @@ public class SongController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomResponseDto<List<Song>>> getAll() {
-        List<Song> songs = songService.getAll();
+    public ResponseEntity<CustomPageResponseDto<List<Song>>> getAll(
+            @RequestParam(value = "search_term", required = false, defaultValue = "") String searchTerm,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
 
-        CustomResponseDto<List<Song>> res = new CustomResponseDto<>(HttpStatus.OK.value(), "List of songs", songs);
+        Page<Song> songs = songService.getAll(searchTerm, pageable);
+
+        CustomPageResponseDto<List<Song>> res = new CustomPageResponseDto<>();
+        res.setStatusCode(HttpStatus.OK.value());
+        res.setMessage("List of songs");
+        res.setData(songs.getContent());
+        res.setPage(page);
+        res.setLimit(limit);
+        res.setCount(songs.getTotalElements());
 
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }

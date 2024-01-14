@@ -11,6 +11,8 @@ import com.patricksantino.simplifyguitarchords.model.Chord;
 import com.patricksantino.simplifyguitarchords.model.Song;
 import com.patricksantino.simplifyguitarchords.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -130,7 +132,7 @@ public class SongService {
     }
 
     // Get all songs
-    public List<Song> getAll() {
-        return this.songRepository.findAll();
+    public Page<Song> getAll(String searchTerm, Pageable pageable) {
+        return this.songRepository.findAllByNameOrSinger(searchTerm, pageable);
     }
 }
