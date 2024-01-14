@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
 
-    @Query(value = "SELECT * FROM songs as s WHERE s.name LIKE %?1% OR s.singer LIKE %?1%",
-            countQuery = "SELECT COUNT(*) FROM songs as s WHERE s.name LIKE %?1% OR s.singer LIKE %?1%",
-            nativeQuery = true)
+    @Query(value = "SELECT s FROM Song as s JOIN FETCH s.chords WHERE s.name LIKE %?1% OR s.singer LIKE %?1%")
     Page<Song> findAllByNameOrSinger(String searchTerm, Pageable pageable);
+
+    Optional<Song> findById(Long id);
 }

@@ -54,4 +54,12 @@ public class SongController {
 
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomResponseDto<Song>> getById(@PathVariable("id") Long id) {
+        Song song = songService.getById(id);
+
+        CustomResponseDto<Song> res = new CustomResponseDto<>(HttpStatus.OK.value(), "Song is found", song);
+        return ResponseEntity.ok(res);
+    }
 }

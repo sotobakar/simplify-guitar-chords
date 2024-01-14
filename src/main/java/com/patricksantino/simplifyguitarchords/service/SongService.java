@@ -7,6 +7,7 @@ import com.patricksantino.simplifyguitarchords.dto.request.SimplifyChatPromptReq
 import com.patricksantino.simplifyguitarchords.dto.request.SimplifySongChordRequestDto;
 import com.patricksantino.simplifyguitarchords.dto.response.CompletionResponseDto;
 import com.patricksantino.simplifyguitarchords.dto.response.SimplifiedChordResponseDto;
+import com.patricksantino.simplifyguitarchords.exception.ModelNotFoundException;
 import com.patricksantino.simplifyguitarchords.model.Chord;
 import com.patricksantino.simplifyguitarchords.model.Song;
 import com.patricksantino.simplifyguitarchords.repository.SongRepository;
@@ -133,6 +134,16 @@ public class SongService {
 
     // Get all songs
     public Page<Song> getAll(String searchTerm, Pageable pageable) {
-        return this.songRepository.findAllByNameOrSinger(searchTerm, pageable);
+        return songRepository.findAllByNameOrSinger(searchTerm, pageable);
+    }
+
+    public Song getById(Long id) {
+        Song song = songRepository.findById(id).orElse(null);
+
+        if (song == null) {
+            throw new ModelNotFoundException("Song is not found.");
+        }
+
+        return song;
     }
 }
